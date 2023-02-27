@@ -84,9 +84,9 @@ walker is in node \eqn{i} at time \eqn{\tau = 0} with probability 1.
 }
 \section{Functions}{
 \itemize{
-\item \code{getDistanceMatrix}: Old deprecated function
-}}
+\item \code{getDistanceMatrix()}: Old deprecated function
 
+}}
 \examples{
 g <- igraph::sample_pa(10, directed = FALSE)
 dm_crw <- get_distance_matrix(g, tau = 1)

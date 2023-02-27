@@ -1,10 +1,11 @@
 ## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.width = 9,
-  fig.height = 5
+  comment = "#>"
 )
+
+## ----setup--------------------------------------------------------------------
+library(diffudist)
 
 ## ----echo = TRUE, eval = FALSE------------------------------------------------
 #  get_distance_matrix(g, tau, type = "Normalized Laplacian", weights = NULL,
@@ -34,11 +35,11 @@ karate_unw_ddm_list <- lapply(1:10, function(tau) {
 })
 
 ## -----------------------------------------------------------------------------
-karate_unw_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
-  ddm <- karate_unw_ddm_list[[i]]
-  plot_distance_matrix(ddm, cex = 1.3, title = bquote(tau==.(i)))
-})
-invisible(lapply(karate_unw_ddm_plots, show))
+#  karate_unw_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
+#    ddm <- karate_unw_ddm_list[[i]]
+#    plot_distance_matrix(ddm, cex = 1.3, title = bquote(tau==.(i)))
+#  })
+#  invisible(lapply(karate_unw_ddm_plots, show))
 
 ## ----w-karate-ddms------------------------------------------------------------
 karate_w_ddm_list <- lapply(1:10, function(tau) {
@@ -52,11 +53,11 @@ V(karate)$cluster <- cutree(res_clu, k = 2)
 plot(karate, vertex.shape = c("circle", "square")[V(karate)$cluster])
 
 ## -----------------------------------------------------------------------------
-karate_w_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
-  ddm <- karate_w_ddm_list[[i]]
-  plot_distance_matrix(ddm, cex = 1.2, title = bquote(tau==.(i)))
-})
-invisible(lapply(karate_w_ddm_plots, show))
+#  karate_w_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
+#    ddm <- karate_w_ddm_list[[i]]
+#    plot_distance_matrix(ddm, cex = 1.2, title = bquote(tau==.(i)))
+#  })
+#  invisible(lapply(karate_w_ddm_plots, show))
 
 ## ----avg-ddms, echo = c(1:3), warning = FALSE, message = FALSE----------------
 karate_unw_ddm_avg <- get_mean_distance_matrix(karate_unw_ddm_list)
@@ -71,8 +72,8 @@ p2 <- plot_distance_matrix(
   show_dendro = FALSE, cex = 1.4, title = "weighted karate club network")
 
 ## -----------------------------------------------------------------------------
-show(p1)
-show(p2)
+#  show(p1)
+#  show(p2)
 
 ## ----PRRW-transition-matrix---------------------------------------------------
 alpha <- .85

@@ -2,7 +2,7 @@
 title: "Computing diffusion distances between network's nodes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Computing diffusion distances between network's nodes}
+  %\VignetteIndexEntry{new-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: biblio.bib
@@ -12,10 +12,12 @@ citation_package: biblatex
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.width = 9,
-  fig.height = 5
+  comment = "#>"
 )
+```
+
+```{r setup}
+library(diffudist)
 ```
 
 # The diffusion distance {short-title="diffusion distance" #diffu-dist}
@@ -74,7 +76,6 @@ s_{X}^{2} = \text{cov}(X, X) = \frac{1}{2 N^2} \sum_{i=1}^{N} \sum_{j=1}^{N} \le
 \]
 for a sample from a random variable $X$.
 
-
 # Using the diffudist package
 
 The main function in the `diffudist` is `get_distance_matrix()`, or its shorter alias `get_DDM()`, which returns the distances $D_{\tau}(i, j)$ for all nodes $i,j$ in the network at some time $\tau\geq 0$, as presented in the previous section.
@@ -83,7 +84,7 @@ Its arguments are
 get_distance_matrix(g, tau, type = "Normalized Laplacian", weights = NULL, 
                     as_dist = FALSE, verbose = TRUE)
 ```
-where `g` is the network (in the `igraph` format), whose nodes you want to compute distances for; `tau` is the parameter $\tau$ in the master equation controlling the diffusion time. `type` refers to the type of dynamics used for the mapping from nodes to points in the diffusion space. By default it is set to "Normalized Laplacian", $\mathbf{\tilde{L}} = \mathbf{I} - \mathbf{D}^{-1} \mathbf{A}$, the generator of the classical (node-centric) continuous-time random walk as described in Section \ref{diffu-dist}. Other types of random walk dynamics generators are available and will be described at the end of this section.
+where `g` is the network (in the `igraph` format), whose nodes you want to compute distances for; `tau` is the parameter $\tau$ in the master equation controlling the diffusion time. `type` refers to the type of dynamics used for the mapping from nodes to points in the diffusion space. By default it is set to "Normalized Laplacian", $\mathbf{\tilde{L}} = \mathbf{I} - \mathbf{D}^{-1} \mathbf{A}$, the generator of the classical (node-centric) continuous-time random walk as described in Section \@ref{diffu-dist}. Other types of random walk dynamics generators are available and will be described at the end of this section.
 The `weights` parameter allows to switch from a weighted to an unweighted network. Mind that, similarly to the `igraph` package [@Rigraph], if `weights = NULL` and the network `g` has and edge attribute called "weight", then this is used automatically.
 Finally, `as_dist` gives the possibility to control the class of the returned object (either a matrix or a "dist" object) and only if `verbose` is set to `TRUE` messages about the progress and warnings are shown.
 
@@ -131,7 +132,7 @@ karate_unw_ddm_list <- lapply(1:10, function(tau) {
 #| unw-ddms-plots, fig.width = 8, fig.height = 5,
 #| fig.subcap = c("Two/three main blocks", "Two main blocks", "Actors 5,6,7,11,17 form a cohesive group", "Three communities, shrinking distances"),
 #| fig.ncol = 2, out.width = "47%", fig.align = "center",
-#| echo = TRUE,
+#| echo = TRUE, eval = FALSE,
 #| fig.cap = "**Figure 2** Diffusion distances of the unweighted karate club network at different diffusion times and w.r.t. the classical random walk (CRW).",
 karate_unw_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
   ddm <- karate_unw_ddm_list[[i]]
@@ -169,7 +170,7 @@ Finally note that, overall, the pairwise distances become smaller as $\tau$ incr
 #| fig.cap = "**Figure 4** Diffusion distances of the weighted karate club network. As in Fig.2, but accounting also for interactions strenghts (i.e. edge weights). Observe that in this case there are no misclassifications and the (main) two-module partition is stable over time.",
 #| fig.ncol = 2, out.width = "47%", fig.align = "center",
 #| fig.pos = "!ht",
-#| echo = TRUE
+#| echo = TRUE, eval = FALSE
 
 karate_w_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
   ddm <- karate_w_ddm_list[[i]]
@@ -178,7 +179,8 @@ karate_w_ddm_plots <- lapply(c(1, 2, 4, 8), function(i) {
 invisible(lapply(karate_w_ddm_plots, show))
 ```
 
-In order to compare diffusion distances at different times or between different networks, one can normalise the distance matrix $\mathbf{D}_{\tau}$ over the maximum, i.e. $\mathbf{\hat{D}}_{\tau} = \frac{\mathbf{D}_{\tau}}{\max{\mathbf{D}_{\tau}}}$, as shown in Fig. 5 for the average distance matrices\textemdash obtained calling the function `get_mean_distance_matrix()` on the list of diffusion distance matrices at different values of $\tau$\textemdash of the unweighted and weighted karate club network. As mentioned in Section \ref{diffu-dist}, averaging diffusion distances over time yields the persistent diffusion geometry of the network, which is very similar for both its versions (weighted and not).
+
+In order to compare diffusion distances at different times or between different networks, one can normalise the distance matrix $\mathbf{D}_{\tau}$ over the maximum, i.e. $\mathbf{\hat{D}}_{\tau} = \frac{\mathbf{D}_{\tau}}{\max{\mathbf{D}_{\tau}}}$, as shown in Fig. 5 for the average distance matrices\textemdash obtained calling the function `get_mean_distance_matrix()` on the list of diffusion distance matrices at different values of $\tau$\textemdash of the unweighted and weighted karate club network. As mentioned in Section \@ref{diffu-dist}, averaging diffusion distances over time yields the persistent diffusion geometry of the network, which is very similar for both its versions (weighted and not).
 
 ```{r avg-ddms, echo = c(1:3), warning = FALSE, message = FALSE}
 karate_unw_ddm_avg <- get_mean_distance_matrix(karate_unw_ddm_list)
@@ -195,7 +197,7 @@ p2 <- plot_distance_matrix(
 
 
 ```{r}
-#| avg-ddms-plot,
+#| avg-ddms-plot, eval = FALSE,
 #| fig.subcap = c("", ""),
 #| fig.cap = "**Figure 5** Comparison of the normalised average diffusion distance matrices for the unweighted/weighted karate club network.",
 #| fig.ncol = 2, out.width = "47%", fig.align = "center",

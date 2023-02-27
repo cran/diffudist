@@ -6,7 +6,7 @@
 \usage{
 plotHeatmap(
   DM,
-  colPalette = rev(RColorBrewer::brewer.pal(11, "Spectral")),
+  colPalette = NULL,
   log.scale = FALSE,
   cex = 1,
   showDendrogram = TRUE,

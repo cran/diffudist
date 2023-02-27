@@ -207,7 +207,7 @@ get_diffusion_probability_matrix <- function(g, tau, type = "Normalized Laplacia
     )
   } else {
     tryCatch(
-      type <- type <- match.arg(toupper(type), types),
+      type <- match.arg(toupper(type), types),
       error = function(e) {
         cat(
           "ERROR! Wrong type of Laplacian, available types are:\n",

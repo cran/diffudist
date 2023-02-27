@@ -1,6 +1,6 @@
 Package: diffudist
 Title: Diffusion Distance for Complex Networks
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person(given = "Giulia",
            family = "Bertagnolli",
@@ -26,18 +26,18 @@ Description: Enables the evaluation of diffusion distances for complex single-la
     For more details see: De Domenico, M. (2017) <doi:10.1103/physrevlett.118.168301> and 
     Bertagnolli, G. and De Domenico, M. (2021) <doi:10.1103/PhysRevE.103.042301>.
 Depends: R (>= 3.5.0)
-Imports: expm, ggdendro, ggplot2, grid, igraph, Matrix, stats, Rcpp (>=
-        1.0.7), reshape2, rlang, viridis
+Imports: expm, ggdendro, ggplot2, grid, igraph, Matrix, stats,
+        RColorBrewer, Rcpp (>= 1.0.10), reshape2, rlang, viridis
 LinkingTo: Rcpp, RcppEigen
 Suggests: knitr, cowplot, parallelDist, strex, tidyr, rmarkdown
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2021-11-29 09:47:25 UTC; giulia
+Packaged: 2023-02-27 10:16:57 UTC; giulia
 Author: Giulia Bertagnolli [aut, cre] (<https://orcid.org/0000-0001-8637-0632>),
   Manlio De Domenico [aut] (<https://orcid.org/0000-0001-5158-8594>)
 Maintainer: Giulia Bertagnolli <giulia.bertagnolli@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-11-30 08:20:06 UTC
+Date/Publication: 2023-02-27 19:42:40 UTC

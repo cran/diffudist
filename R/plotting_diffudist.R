@@ -79,7 +79,8 @@ plot_distance_matrix <- function(DM, col_palette = viridis(n = 11),
   ### Heatmap
   if (!log_scale) {
     p1 <- ggplot(mdf, aes(x = .data$to, y = .data$from)) +
-      ggplot2::geom_tile(aes(fill = .data$value)) +
+      # ggplot2::geom_tile(aes(fill = .data$value)) +
+      ggplot2::geom_raster(aes(fill = .data$value)) +
       ggplot2::coord_equal() +
       ggplot2::scale_fill_gradientn(colours = col_palette, guide = "none") +
       ggplot2::guides(
@@ -132,7 +133,8 @@ plot_distance_matrix <- function(DM, col_palette = viridis(n = 11),
     ggplot2::scale_x_discrete(expand = c(0.02, 0.02)) +
     ggplot2::scale_y_reverse() +
     ggplot2::coord_flip() +
-    ggplot2::theme_void()
+    ggplot2::theme_void() +
+    ggplot2::theme(plot.margin = ggplot2::margin(2, 0, 2, 2, "pt"))
 
   if (show_dendro) {
     # grDevices::dev.new(width = 16, height = 9)
@@ -171,9 +173,14 @@ plot_distance_matrix <- function(DM, col_palette = viridis(n = 11),
 #'   default
 #' @return a \link[ggplot2]{ggplot}
 #' @export
-plotHeatmap <- function(DM, colPalette = rev(RColorBrewer::brewer.pal(11, "Spectral")),
+plotHeatmap <- function(DM, colPalette = NULL,
                         log.scale = FALSE, cex = 1, showDendrogram = TRUE, title = "") {
   .Deprecated("plot_distance_matrix")
+  if (is.null(colPalette)) {
+    colPalette <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+  } else {
+    colPalette <- viridis(n = 11)
+  }
   return(
     plot_distance_matrix(DM, col_palette = colPalette, log_scale = log.scale, cex = cex,
                          show_dendro = showDendrogram, title = title)

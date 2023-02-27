@@ -2,7 +2,11 @@
 #'
 #' @description
 #' Returns the eigenvalue spectrum together with eigenvectors of a Laplacian
-#' corresponding to a network.
+#' corresponding to a network. This involves computing the eigendecomposition of
+#' a (symmetric) matrix, so it is computationally intense and may take some time.
+#' The decomposition of the normalized Laplacian \eqn{L = I - D^{-1}A} takes
+#' is computed through the decomposition of its symmetric version
+#' \eqn{L = D^{-\frac{1}{2}}AD^{-\frac{1}{2}}}. See the package vignette for details.
 #' @param g the network in the [igraph] format
 #' @param type the Laplacian type, default "Normalized Laplacian".
 #'   At the moment this is the only available option. For other types of Laplacians
@@ -32,7 +36,7 @@ get_spectral_decomp <- function(g, type = "Normalized Laplacian", verbose = FALS
   if (igraph::gsize(g) > 0) {
     # L = D - A
     L <- igraph::laplacian_matrix(g, sparse = FALSE)
-    # D^{1/2}
+    # rename D = D^{1/2}
     D <- sqrt(igraph::strength(g, mode = "out"))
     D <- diag(D)
     # D^{-1/2}
@@ -41,7 +45,7 @@ get_spectral_decomp <- function(g, type = "Normalized Laplacian", verbose = FALS
     # (symmetric) normalised Laplacian
     L <- (D_inv %*% L) %*% D_inv
     s_dec <- eigen(L, symmetric = TRUE)
-    u_L <- t(s_dec$vectors) %*% D
+    u_L <- crossprod(s_dec$vectors, D)  # t(s_dec$vectors) %*% D
     u_R <- D_inv %*% s_dec$vectors
   } else {
     stop("Edge set is empty!")
